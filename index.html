@@ -37,16 +37,16 @@
 
         /* --- CLAWBOT ANIMATIONS --- */
         @keyframes walk {
-            0%, 100% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
+            0%, 100% { transform: rotate(-8deg); }
+            50% { transform: rotate(8deg); }
         }
         @keyframes bob {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-8px); }
         }
         @keyframes weld-flash {
             0%, 100% { opacity: 0; }
-            50% { opacity: 1; filter: drop-shadow(0 0 10px #facc15); }
+            50% { opacity: 1; filter: drop-shadow(0 0 15px #facc15); }
         }
 
         /* The Robot Container */
@@ -56,7 +56,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            pointer-events: none; /* Let clicks pass through unless hitting robot */
+            pointer-events: none;
             z-index: 50;
             overflow: hidden;
         }
@@ -64,21 +64,21 @@
         .clawbot-wrapper {
             position: absolute;
             bottom: 20px;
-            width: 150px;
-            height: 200px;
-            pointer-events: auto; /* Enable clicking the robot */
+            width: 160px; /* Bigger robot */
+            height: 220px;
+            pointer-events: auto;
             cursor: pointer;
             transition: transform 0.5s ease-out;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
         }
 
-        .clawbot-legs { animation: bob 0.5s infinite ease-in-out; }
+        .clawbot-legs { animation: bob 0.6s infinite ease-in-out; }
         .leg-left { transform-origin: top; animation: walk 0.8s infinite linear; }
         .leg-right { transform-origin: top; animation: walk 0.8s infinite linear reverse; }
         
         .spark {
             position: absolute;
-            width: 6px; height: 6px;
+            width: 8px; height: 8px;
             background: #facc15;
             border-radius: 50%;
             pointer-events: none;
@@ -126,7 +126,7 @@
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 2rem;
-            margin-bottom: 4rem;
+            margin-bottom: 8rem; /* Space for walking robot */
         }
 
         /* Cards */
@@ -162,7 +162,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .bento-grid { grid-template-columns: 1fr; }
-            .clawbot-wrapper { width: 100px; height: 133px; }
+            .clawbot-wrapper { width: 120px; height: 160px; }
             .chat-widget { width: 100%; height: 80vh; bottom: 0; right: 0; border-radius: 24px 24px 0 0; }
         }
     </style>
@@ -174,22 +174,25 @@
         const { useState, useEffect, useRef } = React;
 
         // --- ⚙️ CONFIGURATION ---
-        // 1. API KEY
+        // 1. API KEY (I inserted your key below)
         const KIMI_API_KEY = 'sk-L7u7HDduzLDhpv41CAGHfwJSzmrzx1sdqgXkMzoea0WpjJdM'; 
-        const API_URL = 'https://api.moonshot.cn/v1/chat/completions';
         
-        // 2. SOCIAL MEDIA LINKS
-        const TWITTER_HANDLE = "mnitechguy"; // Replace with your ACTUAL handle (no @)
-        const INSTAGRAM_URL = "https://instagram.com/ashish.prasad"; // Replace with your URL
+        // 2. SOCIAL MEDIA - ⚠️ CHANGE THIS TO YOUR REAL TWITTER HANDLE!
+        const TWITTER_HANDLE = "mnitechguy"; 
+        
+        // 3. API URL with PROXY (The Fix!)
+        // We use corsproxy.io to bypass the browser security block
+        const PROXY_URL = 'https://corsproxy.io/?';
+        const TARGET_URL = 'https://api.moonshot.cn/v1/chat/completions';
+        const FINAL_URL = PROXY_URL + encodeURIComponent(TARGET_URL);
 
         // --- 🤖 CLAWBOT COMPONENT (The Walker) ---
         const LivingClawBot = ({ onInteract, isChatOpen }) => {
-            const [pos, setPos] = useState(10); // Percent across screen
-            const [direction, setDirection] = useState(1); // 1 = right, -1 = left
-            const [action, setAction] = useState('walking'); // walking, building, idle
+            const [pos, setPos] = useState(10); 
+            const [direction, setDirection] = useState(1); 
+            const [action, setAction] = useState('walking'); 
             const [sparks, setSparks] = useState([]);
             
-            // Autonomous Movement Logic
             useEffect(() => {
                 if (isChatOpen) {
                     setAction('idle');
@@ -197,16 +200,15 @@
                 }
 
                 const moveInterval = setInterval(() => {
-                    if (action === 'building') return; // Don't move if building
+                    if (action === 'building') return;
 
                     setPos(prev => {
-                        let next = prev + (0.2 * direction);
-                        // Turn around at edges
-                        if (next > 80) { setDirection(-1); return 80; }
+                        let next = prev + (0.3 * direction); // Faster walk
+                        if (next > 85) { setDirection(-1); return 85; }
                         if (next < 5) { setDirection(1); return 5; }
                         
-                        // Random chance to stop and "build"
-                        if (Math.random() < 0.005) {
+                        // 1% chance to stop and build per tick
+                        if (Math.random() < 0.01) {
                             startBuilding();
                         }
                         return next;
@@ -218,18 +220,17 @@
 
             const startBuilding = () => {
                 setAction('building');
-                // Generate sparks
-                const newSparks = Array.from({length: 5}).map((_, i) => ({
+                const newSparks = Array.from({length: 8}).map((_, i) => ({
                     id: Date.now() + i,
-                    x: (Math.random() - 0.5) * 40,
-                    y: (Math.random() - 0.5) * 40
+                    x: (Math.random() - 0.5) * 60,
+                    y: (Math.random() - 0.5) * 60
                 }));
                 setSparks(newSparks);
                 
                 setTimeout(() => {
                     setSparks([]);
                     setAction('walking');
-                }, 3000); // Build for 3 seconds
+                }, 2500); 
             };
 
             return (
@@ -239,20 +240,20 @@
                         onClick={onInteract}
                         style={{
                             left: `${pos}%`,
-                            transform: `scaleX(${direction})`, // Flip based on direction
+                            transform: `scaleX(${direction})`, 
                         }}
                     >
                         {/* Speech Bubble */}
                         {!isChatOpen && (
                             <div style={{
-                                position: 'absolute', top: -40, left: direction === 1 ? 0 : -100,
-                                background: 'white', padding: '5px 15px', borderRadius: 10,
-                                fontSize: '12px', fontWeight: 'bold', boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
-                                transform: `scaleX(${direction})`, // Unflip text
-                                opacity: action === 'building' ? 1 : 0.8,
-                                whiteSpace: 'nowrap'
+                                position: 'absolute', top: -50, left: direction === 1 ? 0 : -100,
+                                background: 'white', padding: '8px 16px', borderRadius: 12,
+                                fontSize: '13px', fontWeight: 'bold', boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+                                transform: `scaleX(${direction})`, 
+                                opacity: action === 'building' ? 1 : 0.9,
+                                whiteSpace: 'nowrap', border: '2px solid #3b82f6'
                             }}>
-                                {action === 'building' ? '⚡ Optimizing Site...' : '💤 Zzz... Click me!'}
+                                {action === 'building' ? '⚡ Fixing Bugs...' : '👀 Searching for Papers...'}
                             </div>
                         )}
 
@@ -260,44 +261,38 @@
                         {action === 'building' && sparks.map(s => (
                             <div key={s.id} className="spark" style={{
                                 left: 75 + s.x, top: 100 + s.y,
-                                animation: 'weld-flash 0.5s infinite'
+                                animation: 'weld-flash 0.4s infinite'
                             }} />
                         ))}
 
                         {/* Robot SVG */}
                         <svg viewBox="0 0 150 200" style={{width: '100%', height: '100%'}}>
-                            {/* Legs */}
                             <g className={action === 'walking' ? "clawbot-legs" : ""}>
-                                <rect className={action === 'walking' ? "leg-left" : ""} x="50" y="140" width="15" height="40" rx="5" fill="#94a3b8" />
-                                <rect className={action === 'walking' ? "leg-right" : ""} x="85" y="140" width="15" height="40" rx="5" fill="#94a3b8" />
+                                <rect className={action === 'walking' ? "leg-left" : ""} x="50" y="140" width="18" height="45" rx="5" fill="#64748b" />
+                                <rect className={action === 'walking' ? "leg-right" : ""} x="85" y="140" width="18" height="45" rx="5" fill="#64748b" />
                             </g>
                             
-                            {/* Body */}
                             <g transform="translate(0, 0)">
-                                <circle cx="75" cy="80" r="50" fill="white" stroke="#3b82f6" strokeWidth="4" />
-                                <circle cx="75" cy="80" r="40" fill="#eff6ff" />
+                                <circle cx="75" cy="80" r="55" fill="white" stroke="#3b82f6" strokeWidth="4" />
+                                <circle cx="75" cy="80" r="45" fill="#eff6ff" />
                                 
-                                {/* Eyes */}
-                                <circle cx="60" cy="75" r="6" fill="#1e293b">
-                                    <animate attributeName="r" values="6;2;6" dur="4s" repeatCount="indefinite"/>
+                                <circle cx="60" cy="75" r="7" fill="#1e293b">
+                                    <animate attributeName="r" values="7;2;7" dur="4s" repeatCount="indefinite"/>
                                 </circle>
-                                <circle cx="90" cy="75" r="6" fill="#1e293b">
-                                    <animate attributeName="r" values="6;2;6" dur="4s" repeatCount="indefinite"/>
+                                <circle cx="90" cy="75" r="7" fill="#1e293b">
+                                    <animate attributeName="r" values="7;2;7" dur="4s" repeatCount="indefinite"/>
                                 </circle>
                                 
-                                {/* Smile */}
-                                <path d="M 60 100 Q 75 110 90 100" fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" />
+                                <path d="M 60 100 Q 75 115 90 100" fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" />
                                 
-                                {/* Antenna */}
-                                <line x1="75" y1="30" x2="75" y2="10" stroke="#94a3b8" strokeWidth="3" />
-                                <circle cx="75" cy="10" r="5" fill={action === 'building' ? "#facc15" : "#ef4444"}>
-                                    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+                                <line x1="75" y1="25" x2="75" y2="5" stroke="#94a3b8" strokeWidth="4" />
+                                <circle cx="75" cy="5" r="6" fill={action === 'building' ? "#facc15" : "#ef4444"}>
+                                    <animate attributeName="opacity" values="1;0.4;1" dur="0.5s" repeatCount="indefinite"/>
                                 </circle>
 
-                                {/* Welding Arm */}
-                                <g transform={action === 'building' ? "rotate(15 125 90)" : "rotate(0)"} style={{transition: 'transform 0.2s'}}>
-                                    <rect x="115" y="80" width="30" height="10" rx="5" fill="#64748b" />
-                                    <rect x="140" y="75" width="5" height="20" fill="#3b82f6" />
+                                <g transform={action === 'building' ? "rotate(25 125 90)" : "rotate(0)"} style={{transition: 'transform 0.2s'}}>
+                                    <rect x="120" y="80" width="35" height="12" rx="5" fill="#475569" />
+                                    <rect x="150" y="75" width="6" height="22" fill="#3b82f6" />
                                 </g>
                             </g>
                         </svg>
@@ -309,7 +304,7 @@
         // --- 💬 CHAT COMPONENT ---
         const ChatInterface = ({ onClose }) => {
             const [messages, setMessages] = useState([
-                { role: 'bot', content: "🤖 System Online. I stopped fixing the navbar to talk to you. How can I help?" }
+                { role: 'bot', content: "🤖 ClawBot Online. I am connected to the Kimi 2.5 Brain via secure proxy. Ask me about Ashish's research!" }
             ]);
             const [input, setInput] = useState('');
             const [loading, setLoading] = useState(false);
@@ -325,24 +320,38 @@
                 setLoading(true);
 
                 try {
-                    const response = await fetch(API_URL, {
+                    // Using Proxy URL to fix CORS
+                    const response = await fetch(FINAL_URL, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${KIMI_API_KEY}` },
+                        headers: { 
+                            'Content-Type': 'application/json', 
+                            'Authorization': `Bearer ${KIMI_API_KEY}` 
+                        },
                         body: JSON.stringify({
                             model: 'moonshot-v1-8k',
                             messages: [
-                                { role: 'system', content: "You are ClawBot. Concise, helpful, academic assistant." },
+                                { role: 'system', content: "You are ClawBot, a helpful assistant for Ashish Prasad, a PhD scholar in Operations Management. Keep answers professional and concise." },
                                 ...messages.map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.content })),
                                 { role: 'user', content: userMsg }
                             ],
                             temperature: 0.3
                         })
                     });
+                    
                     const data = await response.json();
-                    if(data.error) throw new Error(data.error.message);
+                    
+                    if(data.error) {
+                        throw new Error(data.error.message || "API Error");
+                    }
+                    
+                    if(!data.choices || data.choices.length === 0) {
+                        throw new Error("No response from AI");
+                    }
+
                     setMessages(prev => [...prev, { role: 'bot', content: data.choices[0].message.content }]);
                 } catch (err) {
-                    setMessages(prev => [...prev, { role: 'bot', content: "⚠️ API Connection Error." }]);
+                    console.error(err);
+                    setMessages(prev => [...prev, { role: 'bot', content: "⚠️ Connection Failed: " + err.message + ". (Check Console for details)" }]);
                 } finally {
                     setLoading(false);
                 }
@@ -350,29 +359,30 @@
 
             return (
                 <div className="chat-widget">
-                    <div style={{padding:'1.5rem', borderBottom:'1px solid #f1f5f9', display:'flex', justifyContent:'space-between'}}>
-                        <h3 style={{fontFamily:'Space Grotesk'}}>ClawBot AI</h3>
-                        <button onClick={onClose} style={{border:'none', background:'none', cursor:'pointer'}}>✕</button>
+                    <div style={{padding:'1.5rem', borderBottom:'1px solid #f1f5f9', display:'flex', justifyContent:'space-between', background:'#fff'}}>
+                        <h3 style={{fontFamily:'Space Grotesk', color:'#3b82f6'}}>ClawBot AI</h3>
+                        <button onClick={onClose} style={{border:'none', background:'none', cursor:'pointer', fontSize:'1.2rem'}}>✕</button>
                     </div>
                     <div style={{flex:1, overflowY:'auto', padding:'1.5rem', background:'#f8fafc'}}>
                         {messages.map((m,i) => (
                             <div key={i} style={{
-                                padding:'10px 15px', borderRadius:'12px', marginBottom:'10px', fontSize:'0.9rem',
+                                padding:'12px 18px', borderRadius:'14px', marginBottom:'12px', fontSize:'0.95rem',
                                 background: m.role === 'bot' ? 'white' : '#3b82f6',
                                 color: m.role === 'bot' ? '#1e293b' : 'white',
                                 alignSelf: m.role === 'bot' ? 'flex-start' : 'flex-end',
-                                maxWidth: '85%', marginLeft: m.role === 'user' ? 'auto' : 0
+                                maxWidth: '85%', marginLeft: m.role === 'user' ? 'auto' : 0,
+                                boxShadow: '0 2px 5px rgba(0,0,0,0.05)'
                             }}>{m.content}</div>
                         ))}
-                        {loading && <div style={{fontSize:'0.8rem', color:'#64748b'}}>Calculating...</div>}
+                        {loading && <div style={{fontSize:'0.8rem', color:'#64748b', fontStyle:'italic'}}>Thinking...</div>}
                         <div ref={bottomRef} />
                     </div>
-                    <div style={{padding:'1rem', background:'white'}}>
+                    <div style={{padding:'1rem', background:'white', borderTop:'1px solid #e2e8f0'}}>
                         <input 
                             value={input} onChange={e => setInput(e.target.value)} 
                             onKeyPress={e => e.key === 'Enter' && handleSend()}
                             placeholder="Type a message..."
-                            style={{width:'100%', padding:'12px', borderRadius:'8px', border:'1px solid #e2e8f0', outline:'none'}}
+                            style={{width:'100%', padding:'14px', borderRadius:'12px', border:'1px solid #e2e8f0', outline:'none', background:'#f8fafc'}}
                         />
                     </div>
                 </div>
@@ -384,7 +394,6 @@
             const [chatOpen, setChatOpen] = useState(false);
 
             useEffect(() => {
-                // Initialize Twitter Widget
                 if (window.twttr) window.twttr.widgets.load();
             }, []);
 
@@ -394,20 +403,20 @@
                         <div className="logo">Ashish.</div>
                         <div style={{display:'flex', gap:'2rem'}}>
                             <a href="#work" style={{textDecoration:'none', color:'#1e293b', fontWeight:500}}>Work</a>
-                            <a href="#social" style={{textDecoration:'none', color:'#1e293b', fontWeight:500}}>Social</a>
+                            <a href="#social" style={{textDecoration:'none', color:'#1e293b', fontWeight:500}}>Updates</a>
                         </div>
                     </nav>
 
                     <div className="container">
                         <section className="hero">
                             <div>
-                                <div style={{display:'inline-block', padding:'5px 15px', background:'#eff6ff', color:'#3b82f6', borderRadius:'100px', fontSize:'0.9rem', fontWeight:'600', marginBottom:'1rem'}}>
+                                <div style={{display:'inline-block', padding:'6px 16px', background:'#eff6ff', color:'#3b82f6', borderRadius:'100px', fontSize:'0.9rem', fontWeight:'600', marginBottom:'1.5rem', border:'1px solid #dbeafe'}}>
                                     Open to Collaboration
                                 </div>
                                 <h1>Building the future of<br/>Decision Science.</h1>
                                 <p className="tagline">PhD Scholar at IIM Kashipur. Integrating Digital Twins & AI Agents into Operations Management.</p>
-                                <button onClick={() => setChatOpen(true)} style={{padding:'15px 30px', background:'#1e293b', color:'white', border:'none', borderRadius:'12px', fontSize:'1rem', fontWeight:'bold', cursor:'pointer'}}>
-                                    Start AI Chat
+                                <button onClick={() => setChatOpen(true)} style={{padding:'16px 32px', background:'#1e293b', color:'white', border:'none', borderRadius:'14px', fontSize:'1rem', fontWeight:'bold', cursor:'pointer', boxShadow:'0 10px 20px rgba(30, 41, 59, 0.2)'}}>
+                                    Ask ClawBot AI
                                 </button>
                             </div>
                         </section>
@@ -418,32 +427,34 @@
                             <div style={{display:'flex', flexDirection:'column', gap:'2rem'}}>
                                 <div className="card">
                                     <h3 className="card-title">Latest Research</h3>
-                                    <div style={{display:'flex', justifyContent:'space-between', borderBottom:'1px solid #f1f5f9', paddingBottom:'1rem', marginBottom:'1rem'}}>
+                                    <div style={{display:'flex', justifyContent:'space-between', borderBottom:'1px solid #f1f5f9', paddingBottom:'1.5rem', marginBottom:'1.5rem'}}>
                                         <div>
-                                            <div style={{fontWeight:'bold'}}>Supply Chain Resilience Agents</div>
-                                            <div style={{fontSize:'0.9rem', color:'#64748b'}}>Working Paper • 2026</div>
+                                            <div style={{fontWeight:'bold', fontSize:'1.1rem'}}>Supply Chain Resilience Agents</div>
+                                            <div style={{fontSize:'0.9rem', color:'#64748b', marginTop:'0.5rem'}}>Working Paper • 2026</div>
+                                            <div style={{fontSize:'0.85rem', color:'#3b82f6', marginTop:'0.5rem'}}>#DigitalTwins #AI</div>
                                         </div>
-                                        <span style={{fontSize:'1.5rem'}}>📄</span>
+                                        <span style={{fontSize:'2rem'}}>📄</span>
                                     </div>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
                                         <div>
-                                            <div style={{fontWeight:'bold'}}>SME Digital Transformation</div>
-                                            <div style={{fontSize:'0.9rem', color:'#64748b'}}>Under Review • IIM Kashipur</div>
+                                            <div style={{fontWeight:'bold', fontSize:'1.1rem'}}>SME Digital Transformation</div>
+                                            <div style={{fontSize:'0.9rem', color:'#64748b', marginTop:'0.5rem'}}>Under Review • IIM Kashipur</div>
+                                            <div style={{fontSize:'0.85rem', color:'#3b82f6', marginTop:'0.5rem'}}>#PLS-SEM #Analytics</div>
                                         </div>
-                                        <span style={{fontSize:'1.5rem'}}>📊</span>
+                                        <span style={{fontSize:'2rem'}}>📊</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Social Feed Column (Twitter Auto-Embed) */}
-                            <div className="card" style={{padding:0, overflow:'hidden', minHeight:'400px'}}>
-                                <div style={{padding:'1.5rem', borderBottom:'1px solid #f1f5f9'}}>
-                                    <h3 className="card-title">Live Updates</h3>
+                            <div className="card" style={{padding:0, overflow:'hidden', minHeight:'500px'}}>
+                                <div style={{padding:'1.5rem', borderBottom:'1px solid #f1f5f9', background:'#fff'}}>
+                                    <h3 className="card-title" style={{marginBottom:0}}>Live Updates</h3>
                                     <p style={{fontSize:'0.8rem', color:'#64748b'}}>Direct from X (Twitter)</p>
                                 </div>
-                                <div style={{height:'400px', overflowY:'auto'}}>
-                                    <a className="twitter-timeline" data-height="400" href={`https://twitter.com/${TWITTER_HANDLE}?ref_src=twsrc%5Etfw`}>
-                                        Loading Tweets...
+                                <div style={{height:'420px', overflowY:'auto', background:'#f8fafc'}}>
+                                    <a className="twitter-timeline" data-height="420" href={`https://twitter.com/${TWITTER_HANDLE}?ref_src=twsrc%5Etfw`}>
+                                        Loading Tweets for {TWITTER_HANDLE}...
                                     </a>
                                 </div>
                             </div>
