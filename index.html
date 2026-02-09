@@ -19,11 +19,7 @@
             --text-muted: #a0a0a0;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'IBM Plex Sans', sans-serif;
@@ -36,10 +32,7 @@
         /* Animated background grid */
         .bg-grid {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
@@ -54,367 +47,197 @@
             100% { transform: translate(50px, 50px); }
         }
         
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+        .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 2rem; }
         
         /* Header */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 0;
-            border-bottom: 2px solid rgba(0, 255, 136, 0.2);
-            margin-bottom: 4rem;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2rem 0; border-bottom: 2px solid rgba(0, 255, 136, 0.2); margin-bottom: 4rem;
         }
         
         .logo {
-            font-family: 'Space Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--tech-green);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700;
+            color: var(--tech-green); text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
         
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
+        nav ul { display: flex; gap: 2rem; list-style: none; }
         nav a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            position: relative;
+            color: var(--text); text-decoration: none; font-weight: 600;
+            transition: all 0.3s; position: relative;
         }
-        
         nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--tech-green);
-            transition: width 0.3s;
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--tech-green); transition: width 0.3s;
         }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        nav a:hover {
-            color: var(--tech-green);
-        }
+        nav a:hover::after { width: 100%; }
+        nav a:hover { color: var(--tech-green); }
         
         /* Hero Section */
         .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            min-height: 80vh;
-            padding: 2rem 0;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+            align-items: center; min-height: 80vh; padding: 2rem 0;
         }
         
         .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900;
+            line-height: 1.1; margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--text) 0%, var(--tech-green) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: fadeInUp 1s ease-out;
         }
         
         .hero-content .subtitle {
-            font-size: 1.5rem;
-            color: var(--tech-green);
-            margin-bottom: 1rem;
-            font-weight: 600;
-            animation: fadeInUp 1s ease-out 0.2s both;
+            font-size: 1.5rem; color: var(--tech-green); margin-bottom: 1rem;
+            font-weight: 600; animation: fadeInUp 1s ease-out 0.2s both;
         }
         
         .hero-content .description {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.4s both;
+            font-size: 1.2rem; color: var(--text-muted); line-height: 1.8;
+            margin-bottom: 2rem; animation: fadeInUp 1s ease-out 0.4s both;
         }
         
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
+        .cta-buttons { display: flex; gap: 1rem; animation: fadeInUp 1s ease-out 0.6s both; }
         
         .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Space Mono', monospace;
-            text-decoration: none;
-            display: inline-block;
+            padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; font-family: 'Space Mono', monospace;
+            text-decoration: none; display: inline-block;
         }
         
         .btn-primary {
-            background: var(--tech-green);
-            color: var(--primary);
+            background: var(--tech-green); color: var(--primary);
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
         }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 5px 30px rgba(0, 255, 136, 0.5); }
         
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 30px rgba(0, 255, 136, 0.5);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 2px solid var(--tech-green);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--tech-green);
-            color: var(--primary);
-        }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--tech-green); }
+        .btn-secondary:hover { background: var(--tech-green); color: var(--primary); }
         
         /* ClawBot Container */
         .clawbot-container {
-            position: relative;
-            height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; height: 600px; display: flex;
+            align-items: center; justify-content: center;
         }
         
         .clawbot-speech {
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 255, 136, 0.1);
-            border: 2px solid var(--tech-green);
-            padding: 1rem 1.5rem;
-            border-radius: 20px;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--tech-green);
-            max-width: 300px;
-            text-align: center;
-            animation: float 3s ease-in-out infinite;
-            backdrop-filter: blur(10px);
+            position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
+            background: rgba(0, 255, 136, 0.1); border: 2px solid var(--tech-green);
+            padding: 1rem 1.5rem; border-radius: 20px;
+            font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--tech-green);
+            max-width: 300px; text-align: center;
+            animation: float 3s ease-in-out infinite; backdrop-filter: blur(10px);
+            cursor: pointer; transition: all 0.3s;
         }
-        
+        .clawbot-speech:hover { background: rgba(0, 255, 136, 0.2); transform: translateX(-50%) scale(1.05); }
         .clawbot-speech::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
+            content: ''; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
             border-top: 20px solid var(--tech-green);
         }
         
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed; bottom: 30px; right: 30px; width: 350px; height: 500px;
+            background: rgba(22, 33, 62, 0.95); border: 2px solid var(--tech-green);
+            border-radius: 15px; display: flex; flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); z-index: 1000;
+            backdrop-filter: blur(10px); animation: slideUp 0.3s ease-out;
+        }
+        
+        .chat-header {
+            padding: 1rem; border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 255, 136, 0.1); border-radius: 13px 13px 0 0;
+        }
+        
+        .chat-messages {
+            flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem;
+        }
+        
+        .message { padding: 0.8rem 1rem; border-radius: 10px; max-width: 80%; font-size: 0.9rem; line-height: 1.4; }
+        .message.bot { background: rgba(255, 255, 255, 0.05); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .message.user { background: rgba(0, 255, 136, 0.2); color: var(--tech-green); align-self: flex-end; border-bottom-right-radius: 2px; }
+        
+        .chat-input-area { padding: 1rem; border-top: 1px solid rgba(0, 255, 136, 0.3); }
+        .chat-input {
+            width: 100%; padding: 0.8rem; background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px;
+            color: var(--text); font-family: 'IBM Plex Sans', sans-serif;
+        }
+        .chat-input:focus { outline: none; border-color: var(--tech-green); }
+        
         /* Sections */
-        .section {
-            padding: 6rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
+        .section { padding: 6rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 3rem;
-            text-align: center;
-            color: var(--tech-green);
+            font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900;
+            margin-bottom: 3rem; text-align: center; color: var(--tech-green);
         }
         
-        /* Research Cards */
-        .research-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
+        .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .research-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px; padding: 2rem; transition: all 0.3s; backdrop-filter: blur(10px);
         }
-        
         .research-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--tech-green);
+            transform: translateY(-10px); border-color: var(--tech-green);
             box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
         }
-        
-        .research-card h3 {
-            color: var(--tech-green);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        
-        .research-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        
+        .research-card h3 { color: var(--tech-green); margin-bottom: 1rem; font-size: 1.5rem; }
+        .research-card p { color: var(--text-muted); line-height: 1.6; }
         .research-tag {
-            display: inline-block;
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--tech-green);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 1rem;
-            margin-right: 0.5rem;
-            font-family: 'Space Mono', monospace;
+            display: inline-block; background: rgba(0, 255, 136, 0.1); color: var(--tech-green);
+            padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem;
+            margin-top: 1rem; margin-right: 0.5rem; font-family: 'Space Mono', monospace;
         }
         
-        /* Experience Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-        }
-        
+        /* Timeline */
+        .timeline { position: relative; padding-left: 3rem; }
         .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
             background: linear-gradient(to bottom, var(--tech-green), transparent);
         }
-        
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-            padding-left: 2rem;
-        }
-        
+        .timeline-item { position: relative; margin-bottom: 3rem; padding-left: 2rem; }
         .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -3.5rem;
-            top: 0;
-            width: 15px;
-            height: 15px;
-            background: var(--tech-green);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            content: ''; position: absolute; left: -3.5rem; top: 0; width: 15px; height: 15px;
+            background: var(--tech-green); border-radius: 50%; box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
-        
-        .timeline-item h3 {
-            color: var(--tech-green);
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-        
-        .timeline-item .date {
-            color: var(--text-muted);
-            font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        
-        .timeline-item p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
+        .timeline-item h3 { color: var(--tech-green); margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .timeline-item .date { color: var(--text-muted); font-family: 'Space Mono', monospace; font-size: 0.9rem; margin-bottom: 1rem; }
+        .timeline-item p { color: var(--text-muted); line-height: 1.6; }
         
         /* Footer */
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 6rem;
-        }
+        footer { text-align: center; padding: 3rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 6rem; }
+        .social-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; }
+        .social-links a { color: var(--text); font-size: 1.5rem; transition: all 0.3s; }
+        .social-links a:hover { color: var(--tech-green); transform: translateY(-3px); }
         
-        .social-links {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
         
-        .social-links a {
-            color: var(--text);
-            font-size: 1.5rem;
-            transition: all 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: var(--tech-green);
-            transform: translateY(-3px);
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-        
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            nav ul {
-                gap: 1rem;
-            }
-            
-            .clawbot-container {
-                height: 400px;
-            }
+            .hero { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2.5rem; }
+            nav ul { gap: 1rem; font-size: 0.8rem; }
+            .clawbot-container { height: 400px; }
+            .chat-widget { width: 90%; right: 5%; bottom: 20px; }
         }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
-    
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
+
+        // --- CONFIGURATION ---
+        // ⚠️ REPLACE THIS WITH YOUR ACTUAL API KEY
+        const KIMI_API_KEY = 'YOUR_KIMI_OR_OPENAI_API_KEY_HERE'; 
+        const API_URL = 'https://api.moonshot.cn/v1/chat/completions'; // Or https://api.openai.com/v1/chat/completions
 
         // ClawBot SVG Component
-        const ClawBot = ({ mood = 'happy' }) => {
+        const ClawBot = ({ mood = 'happy', onClick }) => {
             const [position, setPosition] = useState({ x: 0, y: 0 });
             const [isWaving, setIsWaving] = useState(false);
 
@@ -425,72 +248,38 @@
                         y: Math.cos(Date.now() / 1500) * 10
                     });
                 }, 50);
-
                 const waveInterval = setInterval(() => {
                     setIsWaving(true);
                     setTimeout(() => setIsWaving(false), 1000);
                 }, 5000);
-
-                return () => {
-                    clearInterval(interval);
-                    clearInterval(waveInterval);
-                };
+                return () => { clearInterval(interval); clearInterval(waveInterval); };
             }, []);
 
             return (
-                <svg 
-                    width="400" 
-                    height="500" 
-                    viewBox="0 0 400 500"
+                <svg width="400" height="500" viewBox="0 0 400 500" onClick={onClick}
                     style={{ 
                         transform: `translate(${position.x}px, ${position.y}px)`,
-                        transition: 'transform 0.1s ease-out',
-                        cursor: 'pointer'
+                        transition: 'transform 0.1s ease-out', cursor: 'pointer'
                     }}
                 >
-                    {/* Base */}
                     <rect x="150" y="420" width="100" height="60" fill="#00ff88" opacity="0.3" rx="5"/>
-                    
-                    {/* Vertical Support */}
                     <rect x="190" y="150" width="20" height="270" fill="#00ff88" opacity="0.5"/>
-                    
-                    {/* Horizontal Beam */}
                     <rect x="120" y="130" width="160" height="20" fill="#00ff88" opacity="0.7" rx="3"/>
-                    
-                    {/* Cable */}
                     <line x1="200" y1="150" x2="200" y2="250" stroke="#00ff88" strokeWidth="3" strokeDasharray="5,5">
                         <animate attributeName="y2" values="250;260;250" dur="2s" repeatCount="indefinite"/>
                     </line>
-                    
-                    {/* Claw Body */}
                     <ellipse cx="200" cy="280" rx="50" ry="40" fill="#1a1a2e" stroke="#00ff88" strokeWidth="3"/>
-                    
-                    {/* Eye Left */}
-                    <circle cx="180" cy="270" r="8" fill="#00ff88">
-                        <animate attributeName="r" values="8;6;8" dur="3s" repeatCount="indefinite"/>
-                    </circle>
-                    
-                    {/* Eye Right */}
-                    <circle cx="220" cy="270" r="8" fill="#00ff88">
-                        <animate attributeName="r" values="8;6;8" dur="3s" repeatCount="indefinite"/>
-                    </circle>
-                    
-                    {/* Smile */}
+                    <circle cx="180" cy="270" r="8" fill="#00ff88"><animate attributeName="r" values="8;6;8" dur="3s" repeatCount="indefinite"/></circle>
+                    <circle cx="220" cy="270" r="8" fill="#00ff88"><animate attributeName="r" values="8;6;8" dur="3s" repeatCount="indefinite"/></circle>
                     <path d="M 180 290 Q 200 300 220 290" stroke="#00ff88" strokeWidth="3" fill="none" strokeLinecap="round"/>
-                    
-                    {/* Left Claw Finger */}
                     <g transform={isWaving ? "rotate(-20 160 320)" : ""} style={{ transformOrigin: '160px 320px', transition: 'transform 0.3s' }}>
                         <rect x="155" y="315" width="15" height="60" fill="#16213e" stroke="#00ff88" strokeWidth="2" rx="5"/>
                         <rect x="155" y="370" width="15" height="25" fill="#16213e" stroke="#00ff88" strokeWidth="2" rx="3" transform="rotate(20 162 370)"/>
                     </g>
-                    
-                    {/* Right Claw Finger */}
                     <g transform={isWaving ? "rotate(20 240 320)" : ""} style={{ transformOrigin: '240px 320px', transition: 'transform 0.3s' }}>
                         <rect x="230" y="315" width="15" height="60" fill="#16213e" stroke="#00ff88" strokeWidth="2" rx="5"/>
                         <rect x="230" y="370" width="15" height="25" fill="#16213e" stroke="#00ff88" strokeWidth="2" rx="3" transform="rotate(-20 237 370)"/>
                     </g>
-                    
-                    {/* Glow effect */}
                     <circle cx="200" cy="280" r="60" fill="none" stroke="#00ff88" strokeWidth="1" opacity="0.2">
                         <animate attributeName="r" values="60;70;60" dur="2s" repeatCount="indefinite"/>
                         <animate attributeName="opacity" values="0.2;0;0.2" dur="2s" repeatCount="indefinite"/>
@@ -499,14 +288,104 @@
             );
         };
 
+        // Chat Widget Component
+        const ChatWidget = ({ isOpen, onClose }) => {
+            const [messages, setMessages] = useState([
+                { role: 'bot', content: "👋 Hi! I'm ClawBot. I know all about Ashish's research in Operations Management. Ask me anything!" }
+            ]);
+            const [input, setInput] = useState('');
+            const [loading, setLoading] = useState(false);
+            const messagesEndRef = useRef(null);
+
+            const scrollToBottom = () => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+            };
+
+            useEffect(scrollToBottom, [messages]);
+
+            const handleSend = async (e) => {
+                if ((e.key === 'Enter' || e.type === 'click') && input.trim()) {
+                    const userMsg = input.trim();
+                    setInput('');
+                    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+                    setLoading(true);
+
+                    // If no API key is set, return a mock response
+                    if (KIMI_API_KEY === 'YOUR_KIMI_OR_OPENAI_API_KEY_HERE') {
+                        setTimeout(() => {
+                            setMessages(prev => [...prev, { role: 'bot', content: "🤖 Developer Note: Please add your Kimi/OpenAI API Key in the code to make me real! For now, I'm just a demo." }]);
+                            setLoading(false);
+                        }, 1000);
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${KIMI_API_KEY}`
+                            },
+                            body: JSON.stringify({
+                                model: 'moonshot-v1-8k', // or 'gpt-3.5-turbo' for OpenAI
+                                messages: [
+                                    { role: 'system', content: "You are ClawBot, Ashish Prasad's digital assistant. You help visitors learn about Ashish's research in Operations Management, his experience, and his projects. Be friendly, professional, and helpful!" },
+                                    ...messages.map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.content })),
+                                    { role: 'user', content: userMsg }
+                                ],
+                                temperature: 0.7
+                            })
+                        });
+                        const data = await response.json();
+                        const botReply = data.choices[0].message.content;
+                        setMessages(prev => [...prev, { role: 'bot', content: botReply }]);
+                    } catch (error) {
+                        setMessages(prev => [...prev, { role: 'bot', content: "⚠️ Connection error. Please try again later." }]);
+                    } finally {
+                        setLoading(false);
+                    }
+                }
+            };
+
+            if (!isOpen) return null;
+
+            return (
+                <div className="chat-widget">
+                    <div className="chat-header">
+                        <span style={{ color: '#00ff88', fontWeight: 'bold' }}>ClawBot AI Interface</span>
+                        <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#00ff88', cursor: 'pointer', fontSize: '1.2rem' }}>✕</button>
+                    </div>
+                    <div className="chat-messages">
+                        {messages.map((msg, idx) => (
+                            <div key={idx} className={`message ${msg.role}`}>{msg.content}</div>
+                        ))}
+                        {loading && <div className="message bot">Thinking... 🤔</div>}
+                        <div ref={messagesEndRef} />
+                    </div>
+                    <div className="chat-input-area">
+                        <input 
+                            className="chat-input"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyPress={handleSend}
+                            placeholder="Type a message..."
+                            autoFocus
+                        />
+                    </div>
+                </div>
+            );
+        };
+
         // Main App Component
         const App = () => {
             const [currentMessage, setCurrentMessage] = useState(0);
+            const [isChatOpen, setIsChatOpen] = useState(false);
+
             const messages = [
                 "Hi! I'm ClawBot, Ashish's digital assistant! 🤖",
+                "I'm powered by AI! Click me to chat! 💬",
                 "I help organize his research and projects!",
-                "Click around to learn more about Ashish!",
-                "Need to reach out? Check the contact section!"
+                "Click around to learn more about Ashish!"
             ];
 
             useEffect(() => {
@@ -545,38 +424,33 @@
                             </div>
                         </div>
                         <div className="clawbot-container">
-                            <div className="clawbot-speech">{messages[currentMessage]}</div>
-                            <ClawBot />
+                            <div className="clawbot-speech" onClick={() => setIsChatOpen(true)}>
+                                {messages[currentMessage]}
+                            </div>
+                            <ClawBot onClick={() => setIsChatOpen(true)} />
                         </div>
                     </section>
+                    
+                    <ChatWidget isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
 
                     <section className="section" id="research">
                         <h2 className="section-title">Research Interests</h2>
                         <div className="research-grid">
                             <div className="research-card">
                                 <h3>Operations Management</h3>
-                                <p>
-                                    Investigating optimization strategies, supply chain dynamics, and operational 
-                                    efficiency in modern business environments.
-                                </p>
+                                <p>Investigating optimization strategies, supply chain dynamics, and operational efficiency.</p>
                                 <span className="research-tag">Optimization</span>
                                 <span className="research-tag">Supply Chain</span>
                             </div>
                             <div className="research-card">
                                 <h3>Decision Sciences</h3>
-                                <p>
-                                    Exploring data-driven decision-making frameworks and analytical models for 
-                                    complex business problems.
-                                </p>
+                                <p>Exploring data-driven decision-making frameworks and analytical models.</p>
                                 <span className="research-tag">Analytics</span>
                                 <span className="research-tag">AI/ML</span>
                             </div>
                             <div className="research-card">
                                 <h3>Technology Integration</h3>
-                                <p>
-                                    Leveraging software development expertise to build innovative solutions for 
-                                    management challenges.
-                                </p>
+                                <p>Leveraging software expertise to build solutions for management challenges.</p>
                                 <span className="research-tag">Full Stack</span>
                                 <span className="research-tag">Innovation</span>
                             </div>
@@ -588,27 +462,18 @@
                         <div className="timeline">
                             <div className="timeline-item">
                                 <h3>PhD Scholar</h3>
-                                <div className="date">2022 - Present</div>
-                                <p>
-                                    Pursuing doctoral research in Operations Management & Decision Science at 
-                                    IIM Kashipur, focusing on innovative approaches to business optimization.
-                                </p>
+                                <div className="date">2022 - Present | IIM Kashipur</div>
+                                <p>Pursuing doctoral research in Operations Management & Decision Science.</p>
                             </div>
                             <div className="timeline-item">
-                                <h3>Full Stack Software Developer</h3>
+                                <h3>Full Stack Developer</h3>
                                 <div className="date">Formidium India</div>
-                                <p>
-                                    Built end-to-end web applications, developed scalable solutions, and 
-                                    collaborated with cross-functional teams to deliver impactful products.
-                                </p>
+                                <p>Built end-to-end web applications and scalable solutions.</p>
                             </div>
                             <div className="timeline-item">
-                                <h3>BTech, Computer Science Engineering</h3>
+                                <h3>BTech, CSE</h3>
                                 <div className="date">MNIT Jaipur</div>
-                                <p>
-                                    Strong foundation in computer science, algorithms, and software development 
-                                    from one of India's premier technical institutions.
-                                </p>
+                                <p>Strong foundation in computer science and algorithms.</p>
                             </div>
                         </div>
                     </section>
@@ -616,39 +481,20 @@
                     <section className="section" id="contact">
                         <h2 className="section-title">Let's Connect</h2>
                         <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto' }}>
-                            <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', marginBottom: '2rem', lineHeight: '1.8' }}>
-                                Interested in collaboration, research discussions, or just want to say hi? 
-                                ClawBot and I are always happy to connect!
+                            <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
+                                Interested in collaboration? ClawBot and I are always happy to connect!
                             </p>
                             <div className="social-links">
-                                <a href="https://www.linkedin.com/in/ashish-prasad-a1a020112/" target="_blank" title="LinkedIn">
-                                    <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                                    </svg>
-                                </a>
-                                <a href="mailto:ashish.phd2204@iimkashipur.ac.in" title="Email">
-                                    <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
-                                    </svg>
-                                </a>
-                                <a href="https://github.com/ashish" target="_blank" title="GitHub">
-                                    <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                    </svg>
-                                </a>
+                                <a href="https://www.linkedin.com/in/ashish-prasad-a1a020112/" target="_blank">LinkedIn</a>
+                                <a href="mailto:ashish.phd2204@iimkashipur.ac.in">Email</a>
+                                <a href="https://github.com/ashish" target="_blank">GitHub</a>
                             </div>
-                            <a href="mailto:ashish.phd2204@iimkashipur.ac.in" className="btn btn-primary">
-                                Send a Message
-                            </a>
                         </div>
                     </section>
 
                     <footer>
                         <p style={{ color: 'var(--text-muted)', fontFamily: 'Space Mono, monospace' }}>
                             © 2026 Ashish Prasad. Built with ❤️ and ClawBot 🤖
-                        </p>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '1rem' }}>
-                            PhD Scholar, IIM Kashipur | Operations Management & Decision Science
                         </p>
                     </footer>
                 </div>
