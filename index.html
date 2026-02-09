@@ -3,133 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashish Prasad | Research Portfolio</title>
+    <title>Ashish Prasad | Decision Scientist</title>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
     <style>
         :root {
-            --bg: #ffffff;
-            --surface: #f8fafc;
-            --border: #e2e8f0;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --accent: #2563eb; /* Academic Blue */
-            --accent-light: #eff6ff;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(248, 250, 252) 0%, rgb(241, 245, 249) 90%);
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --text-dark: #1e293b;
+            --text-light: #64748b;
         }
-        
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Layout */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        /* --- CLAWBOT ANIMATIONS --- */
+        @keyframes walk {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes weld-flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; filter: drop-shadow(0 0 10px #facc15); }
+        }
+
+        /* The Robot Container */
+        #clawbot-layer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none; /* Let clicks pass through unless hitting robot */
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        .clawbot-wrapper {
+            position: absolute;
+            bottom: 20px;
+            width: 150px;
+            height: 200px;
+            pointer-events: auto; /* Enable clicking the robot */
+            cursor: pointer;
+            transition: transform 0.5s ease-out;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+        }
+
+        .clawbot-legs { animation: bob 0.5s infinite ease-in-out; }
+        .leg-left { transform-origin: top; animation: walk 0.8s infinite linear; }
+        .leg-right { transform-origin: top; animation: walk 0.8s infinite linear reverse; }
         
-        /* Navigation */
-        nav {
-            padding: 1.5rem 0;
+        .spark {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: #facc15;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        /* --- UI LAYOUT --- */
+        .glass-nav {
+            position: sticky; top: 20px;
+            width: 90%; max-width: 1200px; margin: 0 auto;
+            background: var(--glass); backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem; border-radius: 20px;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(12px); z-index: 100;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
-        .logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.25rem; }
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-link { 
-            color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; 
-            transition: color 0.2s;
+        
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.05em; }
+        
+        .container {
+            max-width: 1200px; margin: 0 auto; padding: 2rem;
+            position: relative; z-index: 1;
         }
-        .nav-link:hover { color: var(--accent); }
 
-        /* Hero Section with ClawBot */
+        /* Hero */
         .hero {
-            display: flex; align-items: center; justify-content: space-between;
-            min-height: 80vh; padding: 4rem 0;
+            min-height: 70vh;
+            display: flex; align-items: center;
+            position: relative;
         }
-        .hero-text { flex: 1; max-width: 600px; }
-        .hero-visual { flex: 1; display: flex; justify-content: center; position: relative; }
-
-        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
-        p.lead { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 90%; }
-        
-        /* Buttons */
-        .btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 500; font-size: 0.95rem;
-            text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5rem; line-height: 0.95;
+            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
         }
-        .btn-primary { background: var(--text-primary); color: white; }
-        .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
-        
-        /* Sections */
-        section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
-        h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2.5rem; }
+        .tagline {
+            font-size: 1.5rem; color: var(--text-light); max-width: 600px; margin-bottom: 2rem;
+        }
 
-        /* Research Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        /* Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Cards */
         .card {
-            background: var(--surface); border: 1px solid var(--border);
-            padding: 2rem; border-radius: 12px; transition: all 0.3s ease;
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: var(--shadow); }
-        .tag { 
-            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
-            color: var(--accent); margin-bottom: 1rem; display: block;
-        }
-        
-        /* Social Feed */
-        .feed-item {
-            display: flex; gap: 1.5rem; padding: 2rem 0; border-bottom: 1px solid var(--border);
-        }
-        .feed-item:last-child { border-bottom: none; }
-        .feed-meta { min-width: 120px; text-align: right; font-size: 0.9rem; color: var(--text-secondary); }
-        .feed-source { 
-            display: inline-block; background: var(--accent-light); color: var(--accent);
-            padding: 0.2rem 0.6rem; border-radius: 100px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem;
-        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px -15px rgba(59, 130, 246, 0.1); }
+        .card-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin-bottom: 1rem; }
 
         /* Chat Widget */
         .chat-widget {
-            position: fixed; bottom: 30px; right: 30px; width: 380px; height: 500px;
-            background: white; border: 1px solid var(--border); border-radius: 16px;
-            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15); z-index: 1000;
-            display: flex; flex-direction: column; overflow: hidden;
-            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: fixed; bottom: 30px; right: 30px;
+            width: 380px; height: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            z-index: 200;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .chat-header {
-            padding: 1rem 1.5rem; background: var(--surface); border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center; font-weight: 600;
-        }
-        .chat-body { flex: 1; padding: 1.5rem; overflow-y: auto; background: white; }
-        .chat-input-area { padding: 1rem; border-top: 1px solid var(--border); background: var(--surface); }
-        .chat-input {
-            width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border); border-radius: 8px;
-            outline: none; font-family: 'Inter', sans-serif;
-        }
-        .chat-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
-        
-        .msg { margin-bottom: 1rem; max-width: 85%; padding: 0.8rem 1rem; border-radius: 12px; font-size: 0.95rem; }
-        .msg.bot { background: var(--surface); color: var(--text-primary); border-bottom-left-radius: 2px; }
-        .msg.user { background: var(--accent); color: white; align-self: flex-end; margin-left: auto; border-bottom-right-radius: 2px; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(100%) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        
+        /* Mobile */
         @media (max-width: 768px) {
-            .hero { flex-direction: column-reverse; text-align: center; gap: 3rem; }
-            .hero-visual { width: 100%; }
-            .nav-links { display: none; }
-            .chat-widget { width: 90%; right: 5%; bottom: 20px; }
+            .hero h1 { font-size: 3rem; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .clawbot-wrapper { width: 100px; height: 133px; }
+            .chat-widget { width: 100%; height: 80vh; bottom: 0; right: 0; border-radius: 24px 24px 0 0; }
         }
     </style>
 </head>
@@ -139,53 +173,143 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // --- CONFIGURATION ---
-        // ⚠️ API KEY SET - DO NOT SHARE THIS FILE PUBLICLY IF POSSIBLE
+        // --- ⚙️ CONFIGURATION ---
+        // 1. API KEY
         const KIMI_API_KEY = 'sk-L7u7HDduzLDhpv41CAGHfwJSzmrzx1sdqgXkMzoea0WpjJdM'; 
         const API_URL = 'https://api.moonshot.cn/v1/chat/completions';
+        
+        // 2. SOCIAL MEDIA LINKS
+        const TWITTER_HANDLE = "mnitechguy"; // Replace with your ACTUAL handle (no @)
+        const INSTAGRAM_URL = "https://instagram.com/ashish.prasad"; // Replace with your URL
 
-        // --- COMPONENTS ---
-
-        // 1. New "Academic Style" ClawBot
-        const ClawBot = ({ onClick }) => {
-            const [hover, setHover] = useState(false);
+        // --- 🤖 CLAWBOT COMPONENT (The Walker) ---
+        const LivingClawBot = ({ onInteract, isChatOpen }) => {
+            const [pos, setPos] = useState(10); // Percent across screen
+            const [direction, setDirection] = useState(1); // 1 = right, -1 = left
+            const [action, setAction] = useState('walking'); // walking, building, idle
+            const [sparks, setSparks] = useState([]);
             
+            // Autonomous Movement Logic
+            useEffect(() => {
+                if (isChatOpen) {
+                    setAction('idle');
+                    return;
+                }
+
+                const moveInterval = setInterval(() => {
+                    if (action === 'building') return; // Don't move if building
+
+                    setPos(prev => {
+                        let next = prev + (0.2 * direction);
+                        // Turn around at edges
+                        if (next > 80) { setDirection(-1); return 80; }
+                        if (next < 5) { setDirection(1); return 5; }
+                        
+                        // Random chance to stop and "build"
+                        if (Math.random() < 0.005) {
+                            startBuilding();
+                        }
+                        return next;
+                    });
+                }, 50);
+
+                return () => clearInterval(moveInterval);
+            }, [direction, action, isChatOpen]);
+
+            const startBuilding = () => {
+                setAction('building');
+                // Generate sparks
+                const newSparks = Array.from({length: 5}).map((_, i) => ({
+                    id: Date.now() + i,
+                    x: (Math.random() - 0.5) * 40,
+                    y: (Math.random() - 0.5) * 40
+                }));
+                setSparks(newSparks);
+                
+                setTimeout(() => {
+                    setSparks([]);
+                    setAction('walking');
+                }, 3000); // Build for 3 seconds
+            };
+
             return (
-                <div 
-                    onClick={onClick}
-                    onMouseEnter={() => setHover(true)}
-                    onMouseLeave={() => setHover(false)}
-                    style={{ cursor: 'pointer', transition: 'transform 0.3s' }}
-                >
-                    <svg width="300" height="400" viewBox="0 0 300 400">
-                        <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style={{stopColor:'#f1f5f9', stopOpacity:1}} />
-                                <stop offset="100%" style={{stopColor:'#e2e8f0', stopOpacity:1}} />
-                            </linearGradient>
-                        </defs>
-                        <g transform="translate(0, -10)" style={{opacity: hover ? 1 : 0.8, transition: 'opacity 0.3s'}}>
-                            <rect x="20" y="20" width="160" height="60" rx="10" fill="white" stroke="#2563eb" strokeWidth="2"/>
-                            <text x="100" y="55" fontFamily="Inter" fontSize="14" fill="#2563eb" textAnchor="middle">Ask me about Research!</text>
-                            <path d="M 100 80 L 90 95 L 110 95 Z" fill="white" stroke="#2563eb" strokeWidth="2"/>
-                        </g>
-                        <g transform="translate(50, 100)">
-                            <rect x="75" y="0" width="10" height="80" fill="#94a3b8" /> 
-                            <circle cx="80" cy="120" r="60" fill="url(#grad1)" stroke="#cbd5e1" strokeWidth="2"/> 
-                            <circle cx="60" cy="110" r="8" fill={hover ? "#2563eb" : "#64748b"} />
-                            <circle cx="100" cy="110" r="8" fill={hover ? "#2563eb" : "#64748b"} />
-                            <path d="M 60 140 Q 80 155 100 140" fill="none" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" />
-                            <rect x="10" y="100" width="15" height="50" rx="5" fill="#e2e8f0" transform="rotate(-20 10 100)"/>
-                            <rect x="135" y="100" width="15" height="50" rx="5" fill="#e2e8f0" transform="rotate(20 135 100)"/>
-                        </g>
-                    </svg>
+                <div id="clawbot-layer">
+                    <div 
+                        className="clawbot-wrapper"
+                        onClick={onInteract}
+                        style={{
+                            left: `${pos}%`,
+                            transform: `scaleX(${direction})`, // Flip based on direction
+                        }}
+                    >
+                        {/* Speech Bubble */}
+                        {!isChatOpen && (
+                            <div style={{
+                                position: 'absolute', top: -40, left: direction === 1 ? 0 : -100,
+                                background: 'white', padding: '5px 15px', borderRadius: 10,
+                                fontSize: '12px', fontWeight: 'bold', boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+                                transform: `scaleX(${direction})`, // Unflip text
+                                opacity: action === 'building' ? 1 : 0.8,
+                                whiteSpace: 'nowrap'
+                            }}>
+                                {action === 'building' ? '⚡ Optimizing Site...' : '💤 Zzz... Click me!'}
+                            </div>
+                        )}
+
+                        {/* Spark Effects */}
+                        {action === 'building' && sparks.map(s => (
+                            <div key={s.id} className="spark" style={{
+                                left: 75 + s.x, top: 100 + s.y,
+                                animation: 'weld-flash 0.5s infinite'
+                            }} />
+                        ))}
+
+                        {/* Robot SVG */}
+                        <svg viewBox="0 0 150 200" style={{width: '100%', height: '100%'}}>
+                            {/* Legs */}
+                            <g className={action === 'walking' ? "clawbot-legs" : ""}>
+                                <rect className={action === 'walking' ? "leg-left" : ""} x="50" y="140" width="15" height="40" rx="5" fill="#94a3b8" />
+                                <rect className={action === 'walking' ? "leg-right" : ""} x="85" y="140" width="15" height="40" rx="5" fill="#94a3b8" />
+                            </g>
+                            
+                            {/* Body */}
+                            <g transform="translate(0, 0)">
+                                <circle cx="75" cy="80" r="50" fill="white" stroke="#3b82f6" strokeWidth="4" />
+                                <circle cx="75" cy="80" r="40" fill="#eff6ff" />
+                                
+                                {/* Eyes */}
+                                <circle cx="60" cy="75" r="6" fill="#1e293b">
+                                    <animate attributeName="r" values="6;2;6" dur="4s" repeatCount="indefinite"/>
+                                </circle>
+                                <circle cx="90" cy="75" r="6" fill="#1e293b">
+                                    <animate attributeName="r" values="6;2;6" dur="4s" repeatCount="indefinite"/>
+                                </circle>
+                                
+                                {/* Smile */}
+                                <path d="M 60 100 Q 75 110 90 100" fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" />
+                                
+                                {/* Antenna */}
+                                <line x1="75" y1="30" x2="75" y2="10" stroke="#94a3b8" strokeWidth="3" />
+                                <circle cx="75" cy="10" r="5" fill={action === 'building' ? "#facc15" : "#ef4444"}>
+                                    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+                                </circle>
+
+                                {/* Welding Arm */}
+                                <g transform={action === 'building' ? "rotate(15 125 90)" : "rotate(0)"} style={{transition: 'transform 0.2s'}}>
+                                    <rect x="115" y="80" width="30" height="10" rx="5" fill="#64748b" />
+                                    <rect x="140" y="75" width="5" height="20" fill="#3b82f6" />
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
                 </div>
             );
         };
 
-        const ChatWidget = ({ isOpen, onClose }) => {
+        // --- 💬 CHAT COMPONENT ---
+        const ChatInterface = ({ onClose }) => {
             const [messages, setMessages] = useState([
-                { role: 'bot', content: "👋 Hi! I'm ClawBot (v2.5). I can answer questions about Ashish's research, his papers, or his background. Try asking 'What is his latest paper?'" }
+                { role: 'bot', content: "🤖 System Online. I stopped fixing the navbar to talk to you. How can I help?" }
             ]);
             const [input, setInput] = useState('');
             const [loading, setLoading] = useState(false);
@@ -193,216 +317,146 @@
 
             useEffect(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), [messages]);
 
-            const handleSend = async (e) => {
-                if ((e.key === 'Enter' || e.type === 'click') && input.trim()) {
-                    const userMsg = input.trim();
-                    setInput('');
-                    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
-                    setLoading(true);
+            const handleSend = async () => {
+                if (!input.trim()) return;
+                const userMsg = input.trim();
+                setInput('');
+                setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+                setLoading(true);
 
-                    try {
-                        // 🚀 REAL AI CONNECTION START
-                        const response = await fetch(API_URL, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${KIMI_API_KEY}`
-                            },
-                            body: JSON.stringify({
-                                model: 'moonshot-v1-8k',
-                                messages: [
-                                    { 
-                                        role: 'system', 
-                                        content: "You are ClawBot, Ashish Prasad's digital assistant. You are polite, professional, and knowledgeable about his research in Operations Management and Digital Twins. Keep answers concise." 
-                                    },
-                                    ...messages.map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.content })),
-                                    { role: 'user', content: userMsg }
-                                ],
-                                temperature: 0.3
-                            })
-                        });
-
-                        const data = await response.json();
-                        
-                        if (data.error) {
-                            throw new Error(data.error.message);
-                        }
-
-                        const botReply = data.choices[0].message.content;
-                        setMessages(prev => [...prev, { role: 'bot', content: botReply }]);
-                        // 🚀 REAL AI CONNECTION END
-
-                    } catch (err) {
-                        console.error(err);
-                        setMessages(prev => [...prev, { role: 'bot', content: "⚠️ I'm having trouble connecting to my brain (API Error). Please try again later." }]);
-                        setLoading(false);
-                    } finally {
-                        setLoading(false);
-                    }
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${KIMI_API_KEY}` },
+                        body: JSON.stringify({
+                            model: 'moonshot-v1-8k',
+                            messages: [
+                                { role: 'system', content: "You are ClawBot. Concise, helpful, academic assistant." },
+                                ...messages.map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.content })),
+                                { role: 'user', content: userMsg }
+                            ],
+                            temperature: 0.3
+                        })
+                    });
+                    const data = await response.json();
+                    if(data.error) throw new Error(data.error.message);
+                    setMessages(prev => [...prev, { role: 'bot', content: data.choices[0].message.content }]);
+                } catch (err) {
+                    setMessages(prev => [...prev, { role: 'bot', content: "⚠️ API Connection Error." }]);
+                } finally {
+                    setLoading(false);
                 }
             };
 
-            if (!isOpen) return null;
-
             return (
                 <div className="chat-widget">
-                    <div className="chat-header">
-                        <span style={{color: 'var(--accent)'}}>ClawBot AI Interface</span>
-                        <button onClick={onClose} style={{background:'none', border:'none', cursor:'pointer', fontSize:'1.2rem'}}>✕</button>
+                    <div style={{padding:'1.5rem', borderBottom:'1px solid #f1f5f9', display:'flex', justifyContent:'space-between'}}>
+                        <h3 style={{fontFamily:'Space Grotesk'}}>ClawBot AI</h3>
+                        <button onClick={onClose} style={{border:'none', background:'none', cursor:'pointer'}}>✕</button>
                     </div>
-                    <div className="chat-body">
-                        {messages.map((m, i) => (
-                            <div key={i} className={`msg ${m.role}`}>{m.content}</div>
+                    <div style={{flex:1, overflowY:'auto', padding:'1.5rem', background:'#f8fafc'}}>
+                        {messages.map((m,i) => (
+                            <div key={i} style={{
+                                padding:'10px 15px', borderRadius:'12px', marginBottom:'10px', fontSize:'0.9rem',
+                                background: m.role === 'bot' ? 'white' : '#3b82f6',
+                                color: m.role === 'bot' ? '#1e293b' : 'white',
+                                alignSelf: m.role === 'bot' ? 'flex-start' : 'flex-end',
+                                maxWidth: '85%', marginLeft: m.role === 'user' ? 'auto' : 0
+                            }}>{m.content}</div>
                         ))}
-                        {loading && <div className="msg bot">Thinking...</div>}
+                        {loading && <div style={{fontSize:'0.8rem', color:'#64748b'}}>Calculating...</div>}
                         <div ref={bottomRef} />
                     </div>
-                    <div className="chat-input-area">
+                    <div style={{padding:'1rem', background:'white'}}>
                         <input 
-                            className="chat-input"
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onKeyPress={handleSend}
-                            placeholder="Ask ClawBot anything..."
-                            autoFocus
+                            value={input} onChange={e => setInput(e.target.value)} 
+                            onKeyPress={e => e.key === 'Enter' && handleSend()}
+                            placeholder="Type a message..."
+                            style={{width:'100%', padding:'12px', borderRadius:'8px', border:'1px solid #e2e8f0', outline:'none'}}
                         />
                     </div>
                 </div>
             );
         };
 
+        // --- 📱 MAIN APP ---
         const App = () => {
-            const [isChatOpen, setIsChatOpen] = useState(false);
+            const [chatOpen, setChatOpen] = useState(false);
 
-            // --- DATA: EDIT HERE FOR UPDATES ---
-            
-            // 📝 RESEARCH PAPERS
-            const papers = [
-                {
-                    title: "Optimizing Supply Chain Resilience using AI Agents",
-                    status: "Working Paper",
-                    desc: "Simulation study on how autonomous agents can mitigate disruption risks in multi-echelon supply chains.",
-                    tag: "Supply Chain AI"
-                },
-                {
-                    title: "Decision Frameworks for SME Digital Transformation",
-                    status: "Under Review",
-                    desc: "Analyzing barriers to tech adoption in Indian manufacturing sectors using PLS-SEM methodology.",
-                    tag: "Decision Science"
-                },
-                {
-                    title: "Algorithmic Efficiency in Warehouse Picking",
-                    status: "Published 2024",
-                    desc: "Comparative analysis of routing algorithms. Published in Journal of Operational Efficiency.",
-                    tag: "Operations"
-                }
-            ];
-
-            // 🐦 SOCIAL UPDATES
-            const updates = [
-                {
-                    date: "Feb 09, 2026",
-                    source: "Twitter",
-                    content: "Just submitted my latest draft on Supply Chain AI. The simulation results regarding recovery time were surprising! 🤖📦 #PhDLife"
-                },
-                {
-                    date: "Jan 15, 2026",
-                    source: "Instagram",
-                    content: "Presented my poster at the Annual OM Conference today. Great discussions with faculty from IIM A & B. 🎓✨"
-                }
-            ];
+            useEffect(() => {
+                // Initialize Twitter Widget
+                if (window.twttr) window.twttr.widgets.load();
+            }, []);
 
             return (
-                <div className="main">
-                    <Navigation />
-                    
-                    {/* Hero Section */}
-                    <header className="hero container">
-                        <div className="hero-text">
-                            <h1>PhD Scholar & <br/><span style={{color: 'var(--accent)'}}>Decision Scientist.</span></h1>
-                            <p className="lead">
-                                Bridging the gap between <strong>Operations Management</strong> and <strong>Computer Science</strong> at IIM Kashipur. 
-                                Exploring AI agents, Digital Twins, and Supply Chain Resilience.
-                            </p>
-                            <div style={{display:'flex', gap:'1rem'}}>
-                                <button className="btn btn-primary" onClick={() => setIsChatOpen(true)}>
-                                    Talk to ClawBot AI
-                                </button>
-                                <a href="mailto:ashish.phd2204@iimkashipur.ac.in" className="btn" style={{border:'1px solid var(--border)'}}>
-                                    Contact Me
-                                </a>
-                            </div>
-                            
-                            {/* Logos */}
-                            <div style={{marginTop:'3rem', display:'flex', gap:'2rem', opacity:0.6, filter:'grayscale(100%)'}}>
-                                <span>🏛️ IIM Kashipur</span>
-                                <span>🏛️ MNIT Jaipur</span>
-                            </div>
+                <div>
+                    <nav className="glass-nav">
+                        <div className="logo">Ashish.</div>
+                        <div style={{display:'flex', gap:'2rem'}}>
+                            <a href="#work" style={{textDecoration:'none', color:'#1e293b', fontWeight:500}}>Work</a>
+                            <a href="#social" style={{textDecoration:'none', color:'#1e293b', fontWeight:500}}>Social</a>
                         </div>
-                        <div className="hero-visual">
-                            <ClawBot onClick={() => setIsChatOpen(true)} />
-                        </div>
-                    </header>
+                    </nav>
 
-                    {/* Chat Widget */}
-                    <ChatWidget isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
-
-                    {/* Research Section */}
-                    <section id="research">
-                        <div className="container">
-                            <h2>Selected Research</h2>
-                            <div className="grid">
-                                {papers.map((p, i) => (
-                                    <div key={i} className="card">
-                                        <span className="tag">{p.status}</span>
-                                        <h3 style={{marginBottom:'0.5rem', fontSize:'1.25rem'}}>{p.title}</h3>
-                                        <p style={{color:'var(--text-secondary)', fontSize:'0.95rem'}}>{p.desc}</p>
-                                        <div style={{marginTop:'1rem', fontSize:'0.8rem', color:'var(--text-secondary)'}}>
-                                            Topic: {p.tag}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Updates Section */}
-                    <section id="updates" style={{background: 'var(--surface)'}}>
-                        <div className="container" style={{maxWidth:'800px'}}>
-                            <h2>Latest Updates</h2>
+                    <div className="container">
+                        <section className="hero">
                             <div>
-                                {updates.map((u, i) => (
-                                    <div key={i} className="feed-item">
-                                        <div className="feed-meta">
-                                            <div>{u.date}</div>
-                                            <div style={{marginTop:'0.5rem'}} className="feed-source">{u.source}</div>
+                                <div style={{display:'inline-block', padding:'5px 15px', background:'#eff6ff', color:'#3b82f6', borderRadius:'100px', fontSize:'0.9rem', fontWeight:'600', marginBottom:'1rem'}}>
+                                    Open to Collaboration
+                                </div>
+                                <h1>Building the future of<br/>Decision Science.</h1>
+                                <p className="tagline">PhD Scholar at IIM Kashipur. Integrating Digital Twins & AI Agents into Operations Management.</p>
+                                <button onClick={() => setChatOpen(true)} style={{padding:'15px 30px', background:'#1e293b', color:'white', border:'none', borderRadius:'12px', fontSize:'1rem', fontWeight:'bold', cursor:'pointer'}}>
+                                    Start AI Chat
+                                </button>
+                            </div>
+                        </section>
+
+                        {/* BENTO GRID LAYOUT */}
+                        <div className="bento-grid" id="social">
+                            {/* Research Column */}
+                            <div style={{display:'flex', flexDirection:'column', gap:'2rem'}}>
+                                <div className="card">
+                                    <h3 className="card-title">Latest Research</h3>
+                                    <div style={{display:'flex', justifyContent:'space-between', borderBottom:'1px solid #f1f5f9', paddingBottom:'1rem', marginBottom:'1rem'}}>
+                                        <div>
+                                            <div style={{fontWeight:'bold'}}>Supply Chain Resilience Agents</div>
+                                            <div style={{fontSize:'0.9rem', color:'#64748b'}}>Working Paper • 2026</div>
                                         </div>
-                                        <div style={{flex:1}}>
-                                            <p style={{fontSize:'1.1rem'}}>{u.content}</p>
-                                        </div>
+                                        <span style={{fontSize:'1.5rem'}}>📄</span>
                                     </div>
-                                ))}
+                                    <div style={{display:'flex', justifyContent:'space-between'}}>
+                                        <div>
+                                            <div style={{fontWeight:'bold'}}>SME Digital Transformation</div>
+                                            <div style={{fontSize:'0.9rem', color:'#64748b'}}>Under Review • IIM Kashipur</div>
+                                        </div>
+                                        <span style={{fontSize:'1.5rem'}}>📊</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Social Feed Column (Twitter Auto-Embed) */}
+                            <div className="card" style={{padding:0, overflow:'hidden', minHeight:'400px'}}>
+                                <div style={{padding:'1.5rem', borderBottom:'1px solid #f1f5f9'}}>
+                                    <h3 className="card-title">Live Updates</h3>
+                                    <p style={{fontSize:'0.8rem', color:'#64748b'}}>Direct from X (Twitter)</p>
+                                </div>
+                                <div style={{height:'400px', overflowY:'auto'}}>
+                                    <a className="twitter-timeline" data-height="400" href={`https://twitter.com/${TWITTER_HANDLE}?ref_src=twsrc%5Etfw`}>
+                                        Loading Tweets...
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
 
-                    <footer style={{padding:'3rem 0', textAlign:'center', color:'var(--text-secondary)', fontSize:'0.9rem'}}>
-                        <p>© 2026 Ashish Prasad. Built with React & Kimi AI.</p>
-                    </footer>
+                    {/* INTERACTIVE ELEMENTS */}
+                    <LivingClawBot onInteract={() => setChatOpen(true)} isChatOpen={chatOpen} />
+                    
+                    {chatOpen && <ChatInterface onClose={() => setChatOpen(false)} />}
                 </div>
             );
         };
-
-        const Navigation = () => (
-            <nav className="container">
-                <div className="logo">Ashish Prasad</div>
-                <div className="nav-links">
-                    <a href="#" className="nav-link">About</a>
-                    <a href="#research" className="nav-link">Research</a>
-                    <a href="#updates" className="nav-link">Updates</a>
-                </div>
-            </nav>
-        );
 
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
